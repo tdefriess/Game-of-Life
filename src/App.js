@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import produce from 'immer';
 import './App.css';
 
@@ -37,14 +37,19 @@ function App() {
 
   const running = useRef(isRunning);
   running.current = isRunning;
+  const gen = useRef(generation);
+  gen.current = generation;
+
+  const updateGen = () => {
+    let newGen = gen.current + 1
+    setGeneration(newGen)
+  }
   
   const newGeneration = useCallback(() => {
-    setGeneration(generation + 1)
     if (!running.current) {
       console.log('return')
       return;
     }
-    console.log('generating next gen')
     setGrid(grid => {
       return produce(grid, draftGrid => {
         for (let i = 0; i < rowCount; i++) {
@@ -56,13 +61,13 @@ function App() {
               if (neighborI < 0) {
                 neighborI = rowCount + neighborI
               }
-              if (neighborI == rowCount) {
+              if (neighborI === rowCount) {
                 neighborI = 0
               }
               if (neighborJ < 0) {
                 neighborJ = colCount + neighborJ
               }
-              if (neighborJ == colCount) {
+              if (neighborJ === colCount) {
                 neighborJ = 0
               }
               liveNeighbors += grid[neighborI][neighborJ]
@@ -75,10 +80,18 @@ function App() {
           }
         }
       })
-      
     })
-    setTimeout(newGeneration, delay);
+    // setTimeout(newGeneration, delay);
   }, [])
+
+  const runSimulation = () => {
+    newGeneration();
+    if (!running.current) {
+      return
+    }
+    updateGen();
+    setTimeout(runSimulation, delay)
+  }
   
   return (
     <div className="App">
@@ -90,10 +103,13 @@ function App() {
               key={`r${i}c${j}`}
               className={`cell ${activeClass(grid[i][j])}`}
               onClick={() => {
-                const nextGrid = produce(grid, draftGrid => {
-                  draftGrid[i][j] = grid[i][j] ? 0 : 1
-                })
-                setGrid(nextGrid)
+                if (!isRunning) {
+                  const nextGrid = produce(grid, draftGrid => {
+                    draftGrid[i][j] = grid[i][j] ? 0 : 1
+                  })
+                  setGrid(nextGrid)
+
+                }
               }}
               style={{height: `${cellSize}px`, width: `${cellSize}px`}}
             />
@@ -103,7 +119,7 @@ function App() {
         setIsRunning(!isRunning)
         if (!isRunning) {
           running.current = true;
-          newGeneration()
+          runSimulation()
         }
       }}>{isRunning ? 'Stop' : 'Start'}</button>
       <h3>Generation: {generation}</h3>
