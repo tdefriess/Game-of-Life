@@ -34,8 +34,16 @@ button {
   border: 1px dotted slategray;
 }
 
+.cell:hover {
+  background-color: lightsteelblue;
+}
+
 .alive {
   background-color: black;
+}
+
+.alive:hover {
+  background-color: darkslategrey;
 }
 
 .dead {
