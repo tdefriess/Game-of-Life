@@ -1,30 +1,31 @@
 import React, { Component } from 'react'
-export default class SpeedSlider extends Component {
+
+export default class CellSizeSlider extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            delay: props.delay
+            cellSize: props.cellSize
         }
     }
 
     handleChange = (event) => {
         if (!this.props.isRunning) {
-            this.props.setDelay(event.target.value)
+            this.props.setCellSize(event.target.value)
         }
     }
 
     render() {
-        let { delay } = this.state
+        // let { cellSize } = this.state
         return (
             <input
                 id='delay'
                 name='delay'
                 type='range'
                 // defaultValue={delay}
-                value={this.props.delay}
-                min={50}
-                max={2000}
-                step={50}
+                value={this.props.cellSize}
+                min={5}
+                max={25}
+                step={1}
                 onChange={this.handleChange}
 
             />

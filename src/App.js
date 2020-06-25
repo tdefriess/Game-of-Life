@@ -2,6 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import produce from 'immer';
 import './App.css';
 import SpeedSlider from './components/SpeedSlider';
+import CellSizeSlider from './components/CellSizeSlider'
 
 const neighborCells = [
   [-1, -1],
@@ -23,6 +24,16 @@ function App() {
     return rows
   }
 
+  const randomGrid = () => {
+    const rows = [];
+    for (let i = 0; i < rowCount; i++) {
+      rows.push(Array.from(Array(colCount), () => {
+        return Math.random() > .7 ? 1 : 0
+      }))
+    }
+    return rows
+  }
+
   const activeClass = (value) => {
     return value ? 'alive' : 'dead'
   }
@@ -33,7 +44,7 @@ function App() {
   const [generation, setGeneration] = useState(0);
   const [grid, setGrid] = useState(newGrid());
   const [isRunning, setIsRunning] = useState(false);
-  const cellSize = 20;
+  const [cellSize, setCellSize] = useState(20);
 
   const running = useRef(isRunning);
   running.current = isRunning;
@@ -46,10 +57,10 @@ function App() {
   }
   
   const newGeneration = useCallback(() => {
-    if (!running.current) {
-      console.log('return')
-      return;
-    }
+    // if (!running.current) {
+    //   console.log('return')
+    //   return;
+    // }
     setGrid(grid => {
       return produce(grid, draftGrid => {
         for (let i = 0; i < rowCount; i++) {
@@ -122,7 +133,31 @@ function App() {
           runSimulation()
         }
       }}>{isRunning ? 'Stop' : 'Start'}</button>
+      <button 
+        onClick={() => {
+          if (!isRunning) {
+            newGeneration()
+            updateGen()
+          }
+        }}>Step</button>
+        <button
+          onClick={() => {
+            if (!isRunning) {
+              setGrid(randomGrid());
+              setGeneration(0);
+            }
+          }}
+        >Random</button>
+        <button
+          onClick={() => {
+            if (!isRunning) {
+              setGrid(newGrid());
+              setGeneration(0);
+            }
+          }}
+        >Clear</button>
       <SpeedSlider delay={delay} setDelay={setDelay} isRunning={isRunning} />
+      <CellSizeSlider cellSize={cellSize} setCellSize={setCellSize} isRunning={isRunning} />
       <h3>Generation: {generation}</h3>
     </div>
   );
