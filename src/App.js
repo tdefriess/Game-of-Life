@@ -4,6 +4,7 @@ import './App.css';
 import SpeedSlider from './components/SpeedSlider';
 import CellSizeSlider from './components/CellSizeSlider';
 import Rules from './components/Rules';
+import About from './components/About';
 
 const neighborCells = [
   [-1, -1],
@@ -187,8 +188,10 @@ function App() {
         <SpeedSlider delay={delay} setDelay={setDelay} isRunning={isRunning} />
         <CellSizeSlider cellSize={cellSize} setCellSize={setCellSize} isRunning={isRunning} />
       </div>
-      <Rules />
-      
+      <div className='about-section'>
+        <Rules />
+        <About />
+      </div>
     </div>
   );
 }

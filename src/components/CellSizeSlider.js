@@ -19,6 +19,7 @@ export default class CellSizeSlider extends Component {
         return (
             <label style={{flexBasis: "20%"}}>Cell Size:
                 <input
+                    className='range'
                     id='delay'
                     name='delay'
                     type='range'

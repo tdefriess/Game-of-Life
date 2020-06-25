@@ -3,7 +3,26 @@
 }
 
 body {
-  background-color: orange;
+  background-color: lightslategray;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  background-color: dodgerblue;
+  border-radius: 7px;
+  height: 35px;
+  padding: 0 10px;
+  margin: 0 5px;
+  border: none;
+  color: white;
+  box-shadow: none;
+}
+
+.range {
+  margin: 0 5px;
 }
 
 .grid {
@@ -31,9 +50,23 @@ body {
 .controls {
   display: flex;
   width: 70%;
-  height: 100px;
+  max-width: 700px;
+  height: 50px;
   margin: 20px auto;
   justify-content: space-around;
   flex-wrap: wrap;
   align-content: space-between;
+}
+
+.about-section {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.about {
+  margin: 0 10%;
 }
