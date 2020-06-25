@@ -1,0 +1,39 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: orange;
+}
+
+.grid {
+  display: grid;
+  margin: auto;
+}
+
+.cell {
+  border: 1px dotted slategray;
+}
+
+.alive {
+  background-color: black;
+}
+
+.dead {
+  background-color: white;
+}
+
+.rules {
+  width: 600px;
+  line-height: 1.5em;
+}
+
+.controls {
+  display: flex;
+  width: 70%;
+  height: 100px;
+  margin: 20px auto;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-content: space-between;
+}
