@@ -19,6 +19,7 @@ button {
   border: none;
   color: white;
   box-shadow: none;
+  outline: none;
 }
 
 .range {
