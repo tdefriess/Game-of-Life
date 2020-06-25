@@ -17,7 +17,7 @@ export default class CellSizeSlider extends Component {
     render() {
         // let { cellSize } = this.state
         return (
-            <label style={{flexBasis: "20%"}}>Cell Size:
+            <label style={{flexBasis: "20%", opacity: this.props.isRunning ? '0.6' : ''}}>Cell Size:
                 <input
                     className='range'
                     id='delay'

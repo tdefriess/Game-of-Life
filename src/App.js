@@ -165,22 +165,26 @@ function App() {
             running.current = true;
             runSimulation()
           }
-        }}>{isRunning ? 'Stop' : 'Start'}</button>
-        <button 
-          onClick={() => {
-            stepGeneration()
+          }}>{isRunning ? 'Stop' : 'Start'}</button>
+          <button
+            style={{opacity: isRunning ? '0.6' : ''}}
+            onClick={() => {
+              stepGeneration()
           }}>Step</button>
           <button
+            style={{opacity: isRunning ? '0.6' : ''}}
             onClick={() => {
               randomGrid()
             }}
           >Random</button>
           <button
+            style={{opacity: isRunning ? '0.6' : ''}}
             onClick={() => {
               clearGrid()
             }}
           >Clear</button>
           <button
+            style={{opacity: isRunning ? '0.6' : ''}}
             onClick={() => {
               toggleWrap()
             }}

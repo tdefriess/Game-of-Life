@@ -16,7 +16,7 @@ export default class SpeedSlider extends Component {
     render() {
         let { delay } = this.state
         return (
-            <label style={{flexBasis: '20%'}}>Delay:
+            <label style={{flexBasis: '20%', opacity: this.props.isRunning ? '0.6' : ''}}>Delay:
                 <input
                     className='range'
                     id='delay'
