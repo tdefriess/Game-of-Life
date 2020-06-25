@@ -38,13 +38,13 @@ function App() {
     return value ? 'alive' : 'dead'
   }
 
-  const [rowCount, setRowCount] = useState(25);
-  const [colCount, setColCount] = useState(30);
+  const [rowCount, setRowCount] = useState(50);
+  const [colCount, setColCount] = useState(100);
   const [delay, setDelay] = useState(50);
   const [generation, setGeneration] = useState(0);
   const [grid, setGrid] = useState(newGrid());
   const [isRunning, setIsRunning] = useState(false);
-  const [cellSize, setCellSize] = useState(20);
+  const [cellSize, setCellSize] = useState(10);
   const [wrapAround, setWrapAround] = useState(true);
 
   const running = useRef(isRunning);
@@ -124,6 +124,12 @@ function App() {
       setGeneration(0);
     }
   }
+
+  const toggleWrap = () => {
+    if (!isRunning) {
+      setWrapAround(!wrapAround)
+    }
+  }
   
   return (
     <div className="App">
@@ -170,6 +176,11 @@ function App() {
             clearGrid()
           }}
         >Clear</button>
+        <button
+          onClick={() => {
+            toggleWrap()
+          }}
+        >{wrapAround ? 'No Wrap' : 'Wrap'}</button>
       <SpeedSlider delay={delay} setDelay={setDelay} isRunning={isRunning} />
       <CellSizeSlider cellSize={cellSize} setCellSize={setCellSize} isRunning={isRunning} />
       <h3>Generation: {generation}</h3>
