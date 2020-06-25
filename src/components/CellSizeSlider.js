@@ -17,18 +17,20 @@ export default class CellSizeSlider extends Component {
     render() {
         // let { cellSize } = this.state
         return (
-            <input
-                id='delay'
-                name='delay'
-                type='range'
-                // defaultValue={delay}
-                value={this.props.cellSize}
-                min={5}
-                max={25}
-                step={1}
-                onChange={this.handleChange}
+            <label style={{flexBasis: "20%"}}>Cell Size:
+                <input
+                    id='delay'
+                    name='delay'
+                    type='range'
+                    // defaultValue={delay}
+                    value={this.props.cellSize}
+                    min={5}
+                    max={25}
+                    step={1}
+                    onChange={this.handleChange}
 
-            />
+                />
+            </label>
         )
     }
 }

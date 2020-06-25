@@ -16,7 +16,8 @@ export default class SpeedSlider extends Component {
     render() {
         let { delay } = this.state
         return (
-            <input
+            <label style={{flexBasis: '20%'}}>Delay:
+                <input
                 id='delay'
                 name='delay'
                 type='range'
@@ -26,8 +27,8 @@ export default class SpeedSlider extends Component {
                 max={2000}
                 step={50}
                 onChange={this.handleChange}
-
-            />
+                />
+            </label>
         )
     }
 }

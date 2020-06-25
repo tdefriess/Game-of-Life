@@ -3,6 +3,7 @@ import produce from 'immer';
 import './App.css';
 import SpeedSlider from './components/SpeedSlider';
 import CellSizeSlider from './components/CellSizeSlider';
+import Rules from './components/Rules';
 
 const neighborCells = [
   [-1, -1],
@@ -152,38 +153,42 @@ function App() {
                 }
               }}
               style={{height: `${cellSize}px`, width: `${cellSize}px`}}
-            />
-          ))}
+              />
+              ))}
       </div>
-      <button onClick={() => {
-        setIsRunning(!isRunning)
-        if (!isRunning) {
-          running.current = true;
-          runSimulation()
-        }
-      }}>{isRunning ? 'Stop' : 'Start'}</button>
-      <button 
-        onClick={() => {
-          stepGeneration()
-        }}>Step</button>
-        <button
-          onClick={() => {
-            randomGrid()
-          }}
-        >Random</button>
-        <button
-          onClick={() => {
-            clearGrid()
-          }}
-        >Clear</button>
-        <button
-          onClick={() => {
-            toggleWrap()
-          }}
-        >{wrapAround ? 'No Wrap' : 'Wrap'}</button>
-      <SpeedSlider delay={delay} setDelay={setDelay} isRunning={isRunning} />
-      <CellSizeSlider cellSize={cellSize} setCellSize={setCellSize} isRunning={isRunning} />
       <h3>Generation: {generation}</h3>
+      <div class='controls'>
+        <button onClick={() => {
+          setIsRunning(!isRunning)
+          if (!isRunning) {
+            running.current = true;
+            runSimulation()
+          }
+        }}>{isRunning ? 'Stop' : 'Start'}</button>
+        <button 
+          onClick={() => {
+            stepGeneration()
+          }}>Step</button>
+          <button
+            onClick={() => {
+              randomGrid()
+            }}
+          >Random</button>
+          <button
+            onClick={() => {
+              clearGrid()
+            }}
+          >Clear</button>
+          <button
+            onClick={() => {
+              toggleWrap()
+            }}
+          >{wrapAround ? 'No Wrap' : 'Wrap'}</button>
+        <SpeedSlider delay={delay} setDelay={setDelay} isRunning={isRunning} />
+        <CellSizeSlider cellSize={cellSize} setCellSize={setCellSize} isRunning={isRunning} />
+      </div>
+      <Rules />
+      
     </div>
   );
 }
