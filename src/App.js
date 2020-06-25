@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import produce from 'immer';
 import './App.css';
+import SpeedSlider from './components/SpeedSlider';
 
 const neighborCells = [
   [-1, -1],
@@ -28,10 +29,9 @@ function App() {
 
   const [rowCount, setRowCount] = useState(25);
   const [colCount, setColCount] = useState(30);
-  const [delay, setDelay] = useState(500);
+  const [delay, setDelay] = useState(50);
   const [generation, setGeneration] = useState(0);
   const [grid, setGrid] = useState(newGrid());
-  const [gridBuffer, setGridBuffer] = grid;
   const [isRunning, setIsRunning] = useState(false);
   const cellSize = 20;
 
@@ -122,6 +122,7 @@ function App() {
           runSimulation()
         }
       }}>{isRunning ? 'Stop' : 'Start'}</button>
+      <SpeedSlider delay={delay} setDelay={setDelay} isRunning={isRunning} />
       <h3>Generation: {generation}</h3>
     </div>
   );
