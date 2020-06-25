@@ -1,8 +1,8 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import produce from 'immer';
 import './App.css';
 import SpeedSlider from './components/SpeedSlider';
-import CellSizeSlider from './components/CellSizeSlider'
+import CellSizeSlider from './components/CellSizeSlider';
 
 const neighborCells = [
   [-1, -1],
@@ -24,7 +24,7 @@ function App() {
     return rows
   }
 
-  const randomGrid = () => {
+  const createRandomGrid = () => {
     const rows = [];
     for (let i = 0; i < rowCount; i++) {
       rows.push(Array.from(Array(colCount), () => {
@@ -45,6 +45,7 @@ function App() {
   const [grid, setGrid] = useState(newGrid());
   const [isRunning, setIsRunning] = useState(false);
   const [cellSize, setCellSize] = useState(20);
+  const [wrapAround, setWrapAround] = useState(true);
 
   const running = useRef(isRunning);
   running.current = isRunning;
@@ -56,11 +57,7 @@ function App() {
     setGeneration(newGen)
   }
   
-  const newGeneration = useCallback(() => {
-    // if (!running.current) {
-    //   console.log('return')
-    //   return;
-    // }
+  const newGeneration = () => {
     setGrid(grid => {
       return produce(grid, draftGrid => {
         for (let i = 0; i < rowCount; i++) {
@@ -69,19 +66,23 @@ function App() {
             neighborCells.forEach(([x, y]) => {
               let neighborI = i + x;
               let neighborJ = j + y;
-              if (neighborI < 0) {
-                neighborI = rowCount + neighborI
+              if (wrapAround) {
+                if (neighborI < 0) {
+                  neighborI = rowCount + neighborI
+                }
+                if (neighborI === rowCount) {
+                  neighborI = 0
+                }
+                if (neighborJ < 0) {
+                  neighborJ = colCount + neighborJ
+                }
+                if (neighborJ === colCount) {
+                  neighborJ = 0
+                }
+                liveNeighbors += grid[neighborI][neighborJ]
+              } else if (neighborI >= 0 && neighborI < rowCount && neighborJ >= 0 && neighborJ < colCount) {
+                liveNeighbors += grid[neighborI][neighborJ]
               }
-              if (neighborI === rowCount) {
-                neighborI = 0
-              }
-              if (neighborJ < 0) {
-                neighborJ = colCount + neighborJ
-              }
-              if (neighborJ === colCount) {
-                neighborJ = 0
-              }
-              liveNeighbors += grid[neighborI][neighborJ]
             })
             if (liveNeighbors < 2 || liveNeighbors > 3) {
               draftGrid[i][j] = 0;
@@ -92,8 +93,7 @@ function App() {
         }
       })
     })
-    // setTimeout(newGeneration, delay);
-  }, [])
+  }
 
   const runSimulation = () => {
     newGeneration();
@@ -103,11 +103,34 @@ function App() {
     updateGen();
     setTimeout(runSimulation, delay)
   }
+
+  const stepGeneration = () => {
+    if (!isRunning) {
+      newGeneration()
+      updateGen()
+    }
+  }
+
+  const randomGrid = () => {
+    if (!isRunning) {
+      setGrid(createRandomGrid());
+      setGeneration(0);
+    }
+  }
+
+  const clearGrid = () => {
+    if (!isRunning) {
+      setGrid(newGrid());
+      setGeneration(0);
+    }
+  }
   
   return (
     <div className="App">
       <h1>Conway's Game of Life</h1>
-      <div className='grid' style={{gridTemplateColumns: `repeat(${colCount}, ${cellSize}px)`}}>
+      <div className='grid' style={{gridTemplateColumns: `repeat(${colCount}, ${cellSize}px)`,
+        width: colCount * cellSize
+      }}>
         {grid.map((rows, i) =>
           rows.map((col, j) => 
             <div
@@ -135,25 +158,16 @@ function App() {
       }}>{isRunning ? 'Stop' : 'Start'}</button>
       <button 
         onClick={() => {
-          if (!isRunning) {
-            newGeneration()
-            updateGen()
-          }
+          stepGeneration()
         }}>Step</button>
         <button
           onClick={() => {
-            if (!isRunning) {
-              setGrid(randomGrid());
-              setGeneration(0);
-            }
+            randomGrid()
           }}
         >Random</button>
         <button
           onClick={() => {
-            if (!isRunning) {
-              setGrid(newGrid());
-              setGeneration(0);
-            }
+            clearGrid()
           }}
         >Clear</button>
       <SpeedSlider delay={delay} setDelay={setDelay} isRunning={isRunning} />
