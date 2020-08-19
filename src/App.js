@@ -40,12 +40,12 @@ function App() {
   }
 
   const [rowCount, setRowCount] = useState(50);
-  const [colCount, setColCount] = useState(100);
+  const [colCount, setColCount] = useState(75);
   const [delay, setDelay] = useState(50);
   const [generation, setGeneration] = useState(0);
   const [grid, setGrid] = useState(newGrid());
   const [isRunning, setIsRunning] = useState(false);
-  const [cellSize, setCellSize] = useState(10);
+  const [cellSize, setCellSize] = useState(5);
   const [wrapAround, setWrapAround] = useState(true);
 
   const running = useRef(isRunning);
